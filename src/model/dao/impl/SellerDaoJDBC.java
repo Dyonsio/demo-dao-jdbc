@@ -20,7 +20,6 @@ public class SellerDaoJDBC implements SellerDao {
 	
 	
 	private Connection conn;
-	private int id;
 	
 	public SellerDaoJDBC (Connection conn) {
 		this.conn = conn;
