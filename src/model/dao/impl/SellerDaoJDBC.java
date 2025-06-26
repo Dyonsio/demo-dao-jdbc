@@ -20,6 +20,7 @@ public class SellerDaoJDBC implements SellerDao {
 	
 	
 	private Connection conn;
+	private int id;
 	
 	public SellerDaoJDBC (Connection conn) {
 		this.conn = conn;
@@ -60,10 +61,10 @@ public class SellerDaoJDBC implements SellerDao {
 			}
 		} 
 		catch (SQLException e) {
-			throw new DbException(e.getLocalizedMessage());
+			throw new DbException(e.getMessage());
 		}
 		finally {
-			DB.closeSatatement(st);
+			DB.closeStatement(st);
 		}
 		
 	}
@@ -88,17 +89,28 @@ public class SellerDaoJDBC implements SellerDao {
 			
 		} 
 		catch (SQLException e) {
-			throw new DbException(e.getLocalizedMessage());
+			throw new DbException(e.getMessage());
 		}
 		finally {
-			DB.closeSatatement(st);
+			DB.closeStatement(st);
 		}
 	}
 
 	@Override
-	public void deleteById(Seller obj) {
-		// TODO Auto-generated method stub
-		
+	public void deleteById(Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller WHERE Id = ?");
+			
+			st.setInt(1, id);
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
@@ -129,7 +141,7 @@ public class SellerDaoJDBC implements SellerDao {
 			throw new DbException(e.getMessage());
 		}
 		finally {
-			DB.closeSatatement(st);
+			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}	
 	}
@@ -188,7 +200,7 @@ public class SellerDaoJDBC implements SellerDao {
 			throw new DbException(e.getMessage());
 		}
 		finally {
-			DB.closeSatatement(st);
+			DB.closeStatement(st);;
 			DB.closeResultSet(rs);
 		}	
 	}
@@ -231,7 +243,7 @@ public class SellerDaoJDBC implements SellerDao {
 			throw new DbException(e.getMessage());
 		}
 		finally {
-			DB.closeSatatement(st);
+			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}	
 	}	
